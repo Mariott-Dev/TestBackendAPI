@@ -11,25 +11,33 @@ pipeline {
         
         stage('Restore Packages') {
             steps {
-                bat 'dotnet restore'
+                script {
+                    bat 'dotnet restore TestBackendAPI.sln'
+                }
             }
         }
         
         stage('Build') {
             steps {
-                bat 'dotnet build'
+                script {
+                    bat 'dotnet build TestBackendAPI.sln'
+                }
             }
         }
         
         stage('Run Tests') {
             steps {
-                bat 'dotnet test'
+                sctript {
+                    bat 'dotnet test TestBackendAPI.sln'
+                }
             }
         }
         
         stage('Publish') {
             steps {
-                bat 'dotnet publish -c Release -o ./publish'
+                script {
+                    bat 'dotnet publish TestBackendAPI.sln -c Release -o ./publish'
+                }
             }
         }
     }

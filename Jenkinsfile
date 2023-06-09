@@ -1,26 +1,36 @@
 pipeline {
     agent any
+    
     stages {
+        stage('Checkout') {
+            steps {
+                git 'https://github.com/Mariott-Dev/TestBackendAPI'
+            }
+        }
+        
+        stage('Restore Packages') {
+            steps {
+                bat 'dotnet restore'
+            }
+        }
+        
         stage('Build') {
             steps {
-                echo "Building dotnet backend.."
+                bat 'dotnet build'
             }
         }
-        stage('Test') {
+        
+        stage('Run Tests') {
             steps {
-                echo "Testing.."
-                sh '''
-                echo "Enter Test Protocols Here (for API)."
-                '''
+                bat 'dotnet test'
             }
         }
-        stage('Deliver') {
+        
+        stage('Publish') {
             steps {
-                echo 'Deliver....'
-                sh '''
-                echo "Enter Delivery Protcols Here (for API)."
-                '''
+                bat 'dotnet publish -c Release -o ./publish'
             }
         }
     }
 }
+
